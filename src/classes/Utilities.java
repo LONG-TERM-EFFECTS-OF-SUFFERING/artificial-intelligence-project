@@ -2,7 +2,6 @@ package src.classes;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import src.classes.Simulation.Operator;
 
@@ -25,11 +24,20 @@ public class Utilities {
 				return "BOTTOM";
 			case Operator.RIGHT:
 				return "RIGHT";
+			case null:
+				return "";
 			default:
 				throw new RuntimeException("Error: invalid operator");
 		}
 	}
 
+	/**
+	 * Returns the opposite operator of the given operator.
+	 *
+	 * @param operator The operator for which to find the opposite.
+	 * @return the opposite operator.
+	 * @throws RuntimeException if the operator is invalid.
+	 */
 	static public Operator get_opposite_operator(Operator operator) {
 		switch (operator) {
 			case Operator.UP:
@@ -47,6 +55,12 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * Returns a list of operators representing the sequence of operations performed from the given node to its root.
+	 *
+	 * @param node The node from which to trace the performed operations.
+	 * @return a list of operators representing the performed operations.
+	 */
 	static public List <Operator> get_performed_operations(Node node) {
 		List <Operator> operations = new ArrayList <>();
 		operations.add(node.get_operator());

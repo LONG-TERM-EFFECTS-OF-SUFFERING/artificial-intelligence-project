@@ -68,7 +68,7 @@ public class Coordinate {
 			return false;
 
 		Coordinate other = (Coordinate) obj;
-		return x == other.x && y == other.y;
+		return x == other.get_x() && y == other.get_y();
 	}
 
 	/**

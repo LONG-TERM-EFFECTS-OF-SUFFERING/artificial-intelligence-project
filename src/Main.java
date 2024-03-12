@@ -14,14 +14,17 @@ public class Main {
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
-		Amplitude amplitude = new Amplitude("./src/test.txt");
+		Amplitude amplitude = new Amplitude("./src/professor_test.txt");
 		List <Simulation.Operator> solution = amplitude.run();
 
+		System.out.print("START");
 		for (Simulation.Operator operator : solution)
-			System.err.print(Utilities.operator_to_string(operator));
+			System.out.print(Utilities.operator_to_string(operator) + "->");
+		System.out.print("GOAL\n");
+
+		System.out.println("Expanded nodes: " + amplitude.get_expanded_nodes());
+		System.out.println("Cost: " + amplitude.get_cost());
 
 		System.out.println();
-
-		// amplitude.testing();
 	}
 }

@@ -127,8 +127,8 @@ public class Simulation {
 
 		Coordinate node_player = node.get_player();
 
-		board[node_player.get_y()][node_player.get_x()] = 2;
 		board[goal.get_y()][goal.get_x()] = 5;
+		board[node_player.get_y()][node_player.get_x()] = 2;
 
 		if (!node.get_was_ship_taken())
 			board[ship.get_y()][ship.get_x()] = 3;
@@ -147,7 +147,7 @@ public class Simulation {
 	 * @return true if the player position is the goal position, false otherwise.
 	 */
 	public boolean is_goal(Node node) {
-		return node.get_player() == goal;
+		return node.get_player().equals(goal);
 	}
 
 	/**
