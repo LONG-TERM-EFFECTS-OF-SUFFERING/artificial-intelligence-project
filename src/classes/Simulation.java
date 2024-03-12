@@ -1,3 +1,5 @@
+package src.classes;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -6,16 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-/**
- * The Simulation class represents a simulation of a game board.
- * It contains information about the state of the board, such as the player's position,
- * the goal position, obstacles, enemies, and the dimensions of the board.
- * The class provides methods to read the state from a file, print the current state of the board,
- * check if the player has reached the goal, get the available moves for the player,
- * and move the player in a specified direction.
- */
 public class Simulation {
-	private Node actual_node;
+	private Node root;
 	private int height;
 	private int width;
 	private List <Coordinate> enemies = new ArrayList <>();
@@ -33,18 +27,23 @@ public class Simulation {
 	 */
 	public Simulation(String path) {
 		read_state_from_file(path);
-		actual_node = new Node(player, null, -1, 0, 0, false);
 
 		if (goal == null)
 			throw new RuntimeException("Error: goal not found");
 		else if (player == null)
 			throw new RuntimeException("Error: player not found");
+
+		root = new Node(player, null, null, 0, 0, false);
+	}
+
+	public Node get_root() {
+		return root;
 	}
 
 	/**
 	 * Returns the height of the object.
 	 *
-	 * @return the height of the object
+	 * @return the height of the object.
 	 */
 	public int get_height() {
 		return height;
@@ -53,7 +52,7 @@ public class Simulation {
 	/**
 	 * Returns the width of the simulation.
 	 *
-	 * @return the width of the simulation
+	 * @return the width of the simulation.
 	 */
 	public int get_width() {
 		return width;
@@ -62,9 +61,9 @@ public class Simulation {
 	/**
 	 * Reads the state of the puzzle from a file.
 	 *
-	 * @param path the path of the file to read from
-	 * @return a 2D array representing the puzzle state
-	 * @throws RuntimeException if the file is empty
+	 * @param path The path of the file to read from.
+	 * @return a 2D array representing the puzzle state.
+	 * @throws RuntimeException if the file is empty.
 	 */
 	private void read_state_from_file(String path) {
 		List <String> rows = Collections.emptyList();
@@ -82,24 +81,25 @@ public class Simulation {
 
 		width = rows.get(0).split("\s").length; // rows.get(0).length() * 2 - 1;
 
-		int[][] puzzle = new int[height][width];
-
 		for (int i = 0; i < height; i++) {
 			String[] actual_row = rows.get(i).split("\s");
 
 			for (int j = 0; j < width; j++) {
 				int cell = Integer.parseInt(actual_row[j]);
-				puzzle[i][j] = cell;
 
-				if (cell == 5)
+				if (cell == 5) {
+					if (goal != null)
+						throw new RuntimeException("Error: more than one goal");
 					goal = new Coordinate(j, i);
-				else if (cell == 4)
+				} else if (cell == 4)
 					enemies.add(new Coordinate(j, i));
 				else if (cell == 3)
 					ship = new Coordinate(j, i);
-				else if (cell == 2)
+				else if (cell == 2) {
+					if (player != null)
+						throw new RuntimeException("Error: more than one player");
 					player = new Coordinate(j, i);
-				else if (cell == 1)
+				} else if (cell == 1)
 					obstacles.add(new Coordinate(j, i));
 				else if (cell == 0)
 					free_cells.add(new Coordinate(j, i));
@@ -108,27 +108,30 @@ public class Simulation {
 	}
 
 	/**
-	 * Prints the current state of the simulation board.
-	 * The board is represented by a 2D array, where each cell represents a specific element:
-	 * - 0: Empty cell
-	 * - 1: Obstacle
-	 * - 2: Player
-	 * - 3: Ship
-	 * - 4: Enemy
-	 * - 5: Goal
+	 * Prints the state of the simulation board, including the positions of
+	 * obstacles, free cells, enemies, player, goal, and ship.
+	 *
+	 * @param node The node to which the status is to be printed.
 	 */
-	public void print_state() {
+	public void print_state(Node node) {
 		int[][] board = new int[height][width];
 
 		for (Coordinate obstacle : obstacles)
 			board[obstacle.get_y()][obstacle.get_x()] = 1;
 
+		for (Coordinate free_cell : free_cells)
+			board[free_cell.get_y()][free_cell.get_x()] = 0;
+
 		for (Coordinate enemy : enemies)
 			board[enemy.get_y()][enemy.get_x()] = 4;
 
-		board[player.get_y()][player.get_x()] = 2;
+		Coordinate node_player = node.get_player();
+
+		board[node_player.get_y()][node_player.get_x()] = 2;
 		board[goal.get_y()][goal.get_x()] = 5;
-		board[ship.get_y()][ship.get_x()] = 3;
+
+		if (!node.get_was_ship_taken())
+			board[ship.get_y()][ship.get_x()] = 3;
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++)
@@ -143,8 +146,8 @@ public class Simulation {
 	 *
 	 * @return true if the player position is the goal position, false otherwise.
 	 */
-	public boolean is_goal() {
-		return player == goal;
+	public boolean is_goal(Node node) {
+		return node.get_player() == goal;
 	}
 
 	/**
@@ -152,8 +155,8 @@ public class Simulation {
 	 * A coordinate is considered valid if it is within the boundaries of the board
 	 * and does not contain any obstacles.
 	 *
-	 * @param coordinate the coordinate to check
-	 * @return true if the coordinate is valid, false otherwise
+	 * @param coordinate The coordinate to check.
+	 * @return true if the coordinate is valid, false otherwise.
 	 */
 	private boolean is_valid_cordinate_to_move_in(Coordinate coordinate) {
 		int x = coordinate.get_x();
@@ -165,12 +168,12 @@ public class Simulation {
 	}
 
 	/**
-	 * Returns a list of available moves for the player.
+	 * Returns a list of available operators for the player.
 	 *
-	 * @return a list of integers representing the available moves
+	 * @return a list of available operators.
 	 */
-	public List <Integer> get_available_moves() {
-		List <Integer> moves = new ArrayList <>();
+	public List <Operator> get_available_operators(Coordinate player) {
+		List <Operator> operators = new ArrayList <>();
 
 		int x = player.get_x();
 		int y = player.get_y();
@@ -181,48 +184,52 @@ public class Simulation {
 		Coordinate left = new Coordinate(x - 1, y);
 
 		if (is_valid_cordinate_to_move_in(up))
-			moves.add(Simulation.UP);
+			operators.add(Operator.UP);
 		if (is_valid_cordinate_to_move_in(right))
-			moves.add(Simulation.RIGHT);
+			operators.add(Operator.RIGHT);
 		if (is_valid_cordinate_to_move_in(bottom))
-			moves.add(Simulation.BOTTOM);
+			operators.add(Operator.BOTTOM);
 		if (is_valid_cordinate_to_move_in(left))
-			moves.add(Simulation.LEFT);
+			operators.add(Operator.LEFT);
 
-		return moves;
+		return operators;
 	}
 
 	/**
-	 * Moves the player in the specified direction.
+	 * Moves the player of the given node in the specified direction.
 	 *
-	 * @param operator the direction in which to move the player
+	 * @param operator The direction in which to move the player.
+	 * @param Node     The node to which you will move player.
 	 */
-	public void move(int operator) {
-		int x = player.get_x();
-		int y = player.get_y();
+	public Node move(Operator operator, Node node) {
+		Coordinate node_player = node.get_player();
+		int x = node_player.get_x();
+		int y = node_player.get_y();
 		int new_x = -1, new_y = -1, cost = 1;
 
 		switch (operator) {
-			case Simulation.UP:
+			case Operator.UP:
 				new_x = x;
 				new_y = y - 1;
 				break;
-			case Simulation.LEFT:
+			case Operator.LEFT:
 				new_x = x - 1;
 				new_y = y;
 				break;
-			case Simulation.BOTTOM:
+			case Operator.BOTTOM:
 				new_x = x;
 				new_y = y + 1;
 				break;
-			case Simulation.RIGHT:
+			case Operator.RIGHT:
 				new_x = x + 1;
 				new_y = y;
 				break;
+			default:
+				throw new RuntimeException("Error: invalid operator");
 		}
 
-		player.set_x(new_x);
-		player.set_y(new_y);
+		Coordinate new_player = new Coordinate(new_x, new_y);
+
 		boolean was_ship_taken = false;
 
 		if (enemies.indexOf(player) != -1)
@@ -230,18 +237,17 @@ public class Simulation {
 		else if (player == ship)
 			was_ship_taken = true;
 
-		actual_node = new Node(player, actual_node, operator, actual_node.get_depth() + 1,
-			actual_node.get_cost() + cost, was_ship_taken);
+		return new Node(new_player, node, operator, node.get_depth() + 1,
+			node.get_cost() + cost, was_ship_taken);
 	}
 
-	public void run() {
-
+	/**
+	 * Represents the possible operators for movement in a simulation.
+	 */
+	static public enum Operator {
+		UP,
+		RIGHT,
+		BOTTOM,
+		LEFT,
 	}
-
-	/* -------------------------------- OPERATORS ------------------------------- */
-
-	public static final int UP = 1;
-	public static final int RIGHT = 2;
-	public static final int BOTTOM = 3;
-	public static final int LEFT = 4;
 }

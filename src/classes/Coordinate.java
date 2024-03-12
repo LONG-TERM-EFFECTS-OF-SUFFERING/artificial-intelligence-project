@@ -1,16 +1,16 @@
-/**
- * The Coordinate class represents a point in a two-dimensional space.
- * It contains the x and y coordinates of the point.
- */
+package src.classes;
+
+
 public class Coordinate {
 	private int x;
 	private int y;
 
+
 	/**
 	 * Constructs a Coordinate object with the specified x and y coordinates.
 	 *
-	 * @param x the x coordinate of the point
-	 * @param y the y coordinate of the point
+	 * @param x The x coordinate of the point.
+	 * @param y The y coordinate of the point.
 	 */
 	public Coordinate(int x, int y) {
 		this.x = x;
@@ -20,7 +20,7 @@ public class Coordinate {
 	/**
 	 * Returns the x coordinate of the point.
 	 *
-	 * @return the x coordinate of the point
+	 * @return The x coordinate of the point.
 	 */
 	public int get_x() {
 		return x;
@@ -29,7 +29,7 @@ public class Coordinate {
 	/**
 	 * Returns the y coordinate of the point.
 	 *
-	 * @return the y coordinate of the point
+	 * @return The y coordinate of the point.
 	 */
 	public int get_y() {
 		return y;
@@ -38,7 +38,7 @@ public class Coordinate {
 	/**
 	 * Sets the x coordinate of the point.
 	 *
-	 * @param x the new x coordinate of the point
+	 * @param x The new x coordinate of the point.
 	 */
 	public void set_x(int x) {
 		this.x = x;
@@ -47,7 +47,7 @@ public class Coordinate {
 	/**
 	 * Sets the y coordinate of the point.
 	 *
-	 * @param y the new y coordinate of the point
+	 * @param y The new y coordinate of the point.
 	 */
 	public void set_y(int y) {
 		this.y = y;
@@ -57,8 +57,8 @@ public class Coordinate {
 	 * Checks if this Coordinate object is equal to another object.
 	 * Two Coordinate objects are considered equal if they have the same x and y coordinates.
 	 *
-	 * @param obj the object to compare with
-	 * @return true if the objects are equal, false otherwise
+	 * @param obj The object to compare with.
+	 * @return true if the objects are equal, false otherwise.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -75,7 +75,7 @@ public class Coordinate {
 	 * Returns a string representation of the Coordinate object.
 	 * The string representation is in the format "(x, y)".
 	 *
-	 * @return a string representation of the Coordinate object
+	 * @return a string representation of the Coordinate object.
 	 */
 	@Override
 	public String toString() {
