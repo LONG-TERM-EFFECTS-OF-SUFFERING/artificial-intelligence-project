@@ -14,7 +14,7 @@ public class Main {
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
-		Amplitude amplitude = new Amplitude("./src/professor_test.txt");
+		Amplitude amplitude = new Amplitude("./src/my_test.txt");
 		List <Simulation.Operator> solution = amplitude.run();
 
 		System.out.print("START");
@@ -24,6 +24,7 @@ public class Main {
 
 		System.out.println("Expanded nodes: " + amplitude.get_expanded_nodes());
 		System.out.println("Cost: " + amplitude.get_cost());
+		System.out.println("Depht: " + amplitude.get_depth());
 
 		System.out.println();
 	}

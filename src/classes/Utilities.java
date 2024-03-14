@@ -1,16 +1,18 @@
 package src.classes;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 import src.classes.Simulation.Operator;
+
 
 public class Utilities {
 	/**
 	 * Converts a Operator enum value to its corresponding string
 	 * representation.
 	 *
-	 * @param operator the Operator value to convert
+	 * @param operator The Operator value to convert
 	 * @return the string representation of the operator
 	 * @throws RuntimeException if the operator is invalid
 	 */
@@ -55,19 +57,31 @@ public class Utilities {
 		}
 	}
 
+
 	/**
-	 * Returns a list of operators representing the sequence of operations performed from the given node to its root.
+	 * Checks if a player (of a node) is on the ship base on the ship's fuel.
+	 *
+	 * @param ship_fuel The amount of fuel of the ship.
+	 * @return true if the ship has fuel, false otherwise.
+	 */
+	static public boolean is_on_ship(int ship_fuel) {
+		return ship_fuel > 0;
+	}
+
+	/**
+	 * Returns a list of operators representing the sequence of operations performed from the
+	 * given node to its root.
 	 *
 	 * @param node The node from which to trace the performed operations.
 	 * @return a list of operators representing the performed operations.
 	 */
 	static public List <Operator> get_performed_operations(Node node) {
-		List <Operator> operations = new ArrayList <>();
+		List <Operator> operations = new Stack <>();
 		operations.add(node.get_operator());
 		Node parent = node.get_parent();
 
 		while (parent != null) {
-			operations.add(0, parent.get_operator());
+			operations.add(parent.get_operator());
 			parent = parent.get_parent();
 		}
 

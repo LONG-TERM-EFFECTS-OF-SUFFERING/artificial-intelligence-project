@@ -33,37 +33,23 @@ public class Simulation {
 		else if (player == null)
 			throw new RuntimeException("Error: player not found");
 
-		root = new Node(player, null, null, 0, 0, false);
+		root = new Node(player, null, null, 0, 0, 0);
 	}
 
+	/**
+	 * Returns the root node of the simulation.
+	 *
+	 * @return the root node of the simulation.
+	 */
 	public Node get_root() {
 		return root;
 	}
 
-	/**
-	 * Returns the height of the object.
-	 *
-	 * @return the height of the object.
-	 */
-	public int get_height() {
-		return height;
-	}
 
 	/**
-	 * Returns the width of the simulation.
+	 * Reads the state of the simulation from a file.
 	 *
-	 * @return the width of the simulation.
-	 */
-	public int get_width() {
-		return width;
-	}
-
-	/**
-	 * Reads the state of the puzzle from a file.
-	 *
-	 * @param path The path of the file to read from.
-	 * @return a 2D array representing the puzzle state.
-	 * @throws RuntimeException if the file is empty.
+	 * @param path the path of the file to read
 	 */
 	private void read_state_from_file(String path) {
 		List <String> rows = Collections.emptyList();
@@ -93,9 +79,11 @@ public class Simulation {
 					goal = new Coordinate(j, i);
 				} else if (cell == 4)
 					enemies.add(new Coordinate(j, i));
-				else if (cell == 3)
+				else if (cell == 3) {
+					if (ship != null)
+						throw new RuntimeException("Error: more than one ship");
 					ship = new Coordinate(j, i);
-				else if (cell == 2) {
+				} else if (cell == 2) {
 					if (player != null)
 						throw new RuntimeException("Error: more than one player");
 					player = new Coordinate(j, i);
@@ -109,7 +97,7 @@ public class Simulation {
 
 	/**
 	 * Prints the state of the simulation board, including the positions of
-	 * obstacles, free cells, enemies, player, goal, and ship.
+	 * obstacles, free cells, enemies, player, goal and ship.
 	 *
 	 * @param node The node to which the status is to be printed.
 	 */
@@ -205,7 +193,8 @@ public class Simulation {
 		Coordinate node_player = node.get_player();
 		int x = node_player.get_x();
 		int y = node_player.get_y();
-		int new_x = -1, new_y = -1, cost = 1;
+		int new_x = -1, new_y = -1;
+		double cost = 0;
 
 		switch (operator) {
 			case Operator.UP:
@@ -230,15 +219,26 @@ public class Simulation {
 
 		Coordinate new_player = new Coordinate(new_x, new_y);
 
-		boolean was_ship_taken = false;
+		int ship_fuel = node.get_ship_fuel();
+		boolean is_on_ship = Utilities.is_on_ship(ship_fuel);
 
-		if (enemies.indexOf(player) != -1)
-			cost += 3;
-		else if (player == ship)
-			was_ship_taken = true;
+		if (is_on_ship) {
+			cost += 0.5;
+			ship_fuel--;
+		} else
+			cost += 1;
 
-		return new Node(new_player, node, operator, node.get_depth() + 1,
-			node.get_cost() + cost, was_ship_taken);
+		if (enemies.indexOf(new_player) != -1)
+			if (!is_on_ship)
+				cost += 3;
+
+		Node new_node = new Node(new_player, node, operator, node.get_depth() + 1,
+				node.get_cost() + cost, ship_fuel);
+
+		if (!node.get_was_ship_taken() && new_player.equals(ship))
+			new_node.take_ship();
+
+		return new_node;
 	}
 
 	/**

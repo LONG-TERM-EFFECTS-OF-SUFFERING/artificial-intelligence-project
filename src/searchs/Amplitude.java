@@ -9,34 +9,13 @@ import src.classes.Simulation;
 import src.classes.Utilities;
 
 
-public class Amplitude {
+public class Amplitude extends Search {
 	private Queue <Node> queue = new LinkedList <>();
-	private Simulation simulation;
-	private int expanded_nodes = 0;
-	private int cost;
 
 
 	public Amplitude(String path) {
-		simulation = new Simulation(path);
-		queue.add(simulation.get_root());
-	}
-
-	/**
-	 * Returns the number of expanded nodes.
-	 *
-	 * @return the number of expanded nodes.
-	 */
-	public int get_expanded_nodes() {
-		return expanded_nodes;
-	}
-
-	/**
-	 * Returns the cost associated with the preferential search by amplitude.
-	 *
-	 * @return the cost.
-	 */
-	public int get_cost() {
-		return cost;
+		super(path);
+		queue.add(get_simulation().get_root());
 	}
 
 	/**
@@ -45,6 +24,8 @@ public class Amplitude {
 	 * @param node The node to be expanded.
 	 */
 	public void expand_node(Node node) {
+		Simulation simulation = get_simulation();
+
 		List <Simulation.Operator> availabe_operators = simulation.get_available_operators(node.get_player());
 		Simulation.Operator node_operator = node.get_operator();
 		Simulation.Operator node_opposite_operator = Utilities.get_opposite_operator(node_operator);
@@ -54,7 +35,7 @@ public class Amplitude {
 				continue;
 
 			queue.add(simulation.move(operator, node));
-			expanded_nodes++;
+			super.increase_expanded_nodes();
 		}
 	}
 
@@ -66,13 +47,16 @@ public class Amplitude {
 	 * @throws RuntimeException if a solution is not found.
 	 */
 	public List <Simulation.Operator> run() {
+		Simulation simulation = get_simulation();
+
 		if (queue.isEmpty())
 			throw new RuntimeException("Error: solution not found");
 
 		Node node = queue.remove();
 
 		if (simulation.is_goal(node)) {
-			cost = node.get_cost();
+			super.set_cost(node.get_cost());
+			super.set_depth(node.get_depth());
 			return Utilities.get_performed_operations(node);
 		} else {
 			expand_node(node);
