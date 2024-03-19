@@ -14,8 +14,10 @@ public class Main {
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
-		Amplitude amplitude = new Amplitude("./src/my_test.txt");
-		List <Simulation.Operator> solution = amplitude.run();
+		Amplitude amplitude = new Amplitude("./src/professor_test.txt");
+		Cost cost = new Cost("./src/professor_test.txt");
+
+		List <Simulation.Operator> solution = cost.run();
 		//Invertimos la solucion
 		List <Simulation.Operator> inverted_solution = Utilities.invert_solution(solution);
 
@@ -24,9 +26,9 @@ public class Main {
 			System.out.print(Utilities.operator_to_string(operator) + "->");
 		System.out.print("GOAL\n");
 
-		System.out.println("Expanded nodes: " + amplitude.get_expanded_nodes());
-		System.out.println("Cost: " + amplitude.get_cost());
-		System.out.println("Depht: " + amplitude.get_depth());
+		System.out.println("Expanded nodes: " + cost.get_expanded_nodes());
+		System.out.println("Cost: " + cost.get_cost());
+		System.out.println("Depht: " + cost.get_depth());
 
 		System.out.println();
 	}

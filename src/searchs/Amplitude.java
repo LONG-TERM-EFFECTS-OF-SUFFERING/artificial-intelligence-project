@@ -52,7 +52,7 @@ public class Amplitude extends Search {
 		if (queue.isEmpty())
 			throw new RuntimeException("Error: solution not found");
 
-		Node node = queue.remove(); 
+		Node node = queue.remove();
 
 		if (simulation.is_goal(node)) {
 			super.set_cost(node.get_cost());
