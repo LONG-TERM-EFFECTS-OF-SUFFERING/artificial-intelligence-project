@@ -230,7 +230,7 @@ public class Simulation {
 
 		if (enemies.indexOf(new_player) != -1)
 			if (!is_on_ship)
-				cost += 3;
+				cost += 4;
 
 		Node new_node = new Node(new_player, node, operator, node.get_depth() + 1,
 				node.get_cost() + cost, ship_fuel);

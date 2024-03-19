@@ -1,6 +1,5 @@
 package src.classes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -86,5 +85,20 @@ public class Utilities {
 		}
 
 		return operations;
+	}
+
+	/**
+	 * Inverts the given solution.
+	 *
+	 * @param solution The solution to invert.
+	 * @return the inverted solution.
+	 */
+	static public List <Operator> invert_solution(List <Operator> solution) {
+		List <Operator> inverted_solution = new Stack <>();
+
+		for (int i = solution.size() - 1; i >= 0; i--)
+			inverted_solution.add(solution.get(i));
+
+		return inverted_solution;
 	}
 }

@@ -16,9 +16,11 @@ public class Main {
 	public static void main(String[] args) {
 		Amplitude amplitude = new Amplitude("./src/my_test.txt");
 		List <Simulation.Operator> solution = amplitude.run();
+		//Invertimos la solucion
+		List <Simulation.Operator> inverted_solution = Utilities.invert_solution(solution);
 
 		System.out.print("START");
-		for (Simulation.Operator operator : solution)
+		for (Simulation.Operator operator : inverted_solution)
 			System.out.print(Utilities.operator_to_string(operator) + "->");
 		System.out.print("GOAL\n");
 
