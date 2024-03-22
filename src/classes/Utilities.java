@@ -1,9 +1,10 @@
 package src.classes;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import src.classes.Simulation.Operator;
+
 
 public class Utilities {
 	/**
@@ -17,7 +18,7 @@ public class Utilities {
 	static public String operator_to_string(Operator operator) {
 		switch (operator) {
 			case Operator.UP:
-				return "UPPER";
+				return "UP";
 			case Operator.LEFT:
 				return "LEFT";
 			case Operator.BOTTOM:
@@ -42,43 +43,28 @@ public class Utilities {
 	}
 
 	/**
-	 * Returns a list of operators representing the sequence of operations performed
-	 * from the
-	 * given node to its root.
+	 * Returns a list of ancestor nodes for the given node.
 	 *
-	 * @param node The node from which to trace the performed operations.
-	 * @return a list of operators representing the performed operations.
+	 * @param node the node for which to find ancestor nodes
+	 * @return a list of ancestor nodes in reverse order
 	 */
-	static public List<Operator> get_performed_operations(Node node) {
-		List<Operator> operations = new Stack<>();
-		operations.add(node.get_operator());
-		Node parent = node.get_parent();
+	static public List <Node> get_ancestor_nodes(Node node) {
+		List <Node> nodes = new ArrayList <Node>();
 
-		while (parent != null) {
-			operations.add(parent.get_operator());
-			parent = parent.get_parent();
+		while (node != null) {
+			nodes.add(node);
+			node = node.get_parent();
 		}
 
-		return operations;
+		return nodes.reversed();
 	}
 
 	/**
-	 * Inverts the given solution.
+	 * Checks if a given node is repeated in its parent hierarchy.
 	 *
-	 * @param solution The solution to invert.
-	 * @return the inverted solution.
+	 * @param node the node to check for repetition.
+	 * @return true if the node is repeated, false otherwise.
 	 */
-	static public List<Operator> invert_solution(List<Operator> solution) {
-		List<Operator> inverted_solution = new Stack<>();
-
-		for (int i = solution.size() - 1; i >= 0; i--)
-			inverted_solution.add(solution.get(i));
-
-		return inverted_solution;
-	}
-
-	// nombre de funcion que verifica si el siguiente movimiento de un nodo no sea
-	// el mismo a algun nodo ascendetes o ancestros del nodo actual:
 	static public boolean is_repeated(Node node) {
 		Node parent = node.get_parent();
 		while (parent != null) {

@@ -1,11 +1,6 @@
 package src;
 
-import java.util.List;
-
-import src.classes.Simulation;
-import src.classes.Utilities;
-import src.searchs.*;
-
+import src.windows.MenuWindow;
 
 public class Main {
 	/**
@@ -14,10 +9,7 @@ public class Main {
 	 * @param args The command-line arguments.
 	 */
 	public static void main(String[] args) {
-		Menu menu = new Menu();
-		while (true) {
-			menu.displayMenu();
-			menu.selectOption();
-		}
+		MenuWindow menu_window = new MenuWindow();
+		menu_window.setVisible(true);
 	}
 }

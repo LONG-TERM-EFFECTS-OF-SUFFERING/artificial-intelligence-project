@@ -29,14 +29,13 @@ public class Amplitude extends Search {
 		List <Simulation.Operator> availabe_operators = simulation.get_available_operators(node.get_player());
 
 		for (Simulation.Operator operator : availabe_operators) {
+			Node parent_node = node.get_parent();
+			Node move_node = simulation.move(operator, node);
 
-			Node node_parent = node.get_parent();
-			Node node_move = simulation.move(operator, node);
-
-			if (node_move.equals(node_parent)) // Do not return
+			if (move_node.equals(parent_node)) // Do not return
 				continue;
 
-			queue.add(node_move);
+			queue.add(move_node);
 			super.increase_expanded_nodes();
 		}
 	}
@@ -44,11 +43,11 @@ public class Amplitude extends Search {
 	/**
 	 * Runs the amplitude search algorithm to find a solution.
 	 *
-	 * @return a list of Simulation.Operators representing the performed operations
+	 * @return a list of Operators representing the performed operations
 	 * to reach the solution.
 	 * @throws RuntimeException if a solution is not found.
 	 */
-	public List <Simulation.Operator> run() {
+	public Node run() {
 		Simulation simulation = get_simulation();
 
 		if (queue.isEmpty())
@@ -59,7 +58,7 @@ public class Amplitude extends Search {
 		if (simulation.is_goal(node)) {
 			super.set_cost(node.get_cost());
 			super.set_depth(node.get_depth());
-			return Utilities.get_performed_operations(node);
+			return node;
 		} else {
 			expand_node(node);
 			return run();

@@ -116,8 +116,8 @@ public class Node {
 
 		Node other = (Node) obj;
 		boolean other_is_on_ship = Utilities.is_on_ship(other.get_ship_fuel());
-		Coordinate other_coordinate = other.get_player();
+		Coordinate other_player = other.get_player();
 
-		return player.equals(other_coordinate) && Utilities.is_on_ship(ship_fuel) == other_is_on_ship;
+		return player.equals(other_player) && Utilities.is_on_ship(ship_fuel) == other_is_on_ship;
 	}
 }

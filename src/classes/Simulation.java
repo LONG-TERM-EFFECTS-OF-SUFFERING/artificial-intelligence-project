@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Simulation {
 	private Node root;
-	private int height;
-	private int width;
+	private int rows;
+	private int columns;
 	private List <Coordinate> enemies = new ArrayList <>();
 	private List <Coordinate> obstacles = new ArrayList <>();
 	private List <Coordinate> free_cells = new ArrayList <>();
@@ -19,6 +19,24 @@ public class Simulation {
 	private Coordinate player = null;
 	private Coordinate ship = null;
 
+
+	/**
+	 * Returns the number of rows in the simulation.
+	 *
+	 * @return the number of rows
+	 */
+	public int get_rows() {
+		return rows;
+	}
+
+	/**
+	 * Returns the number of columns in the simulation.
+	 *
+	 * @return the number of columns
+	 */
+	public int get_columns() {
+		return columns;
+	}
 
 	/**
 	 * Represents a simulation of a game.
@@ -45,32 +63,31 @@ public class Simulation {
 		return root;
 	}
 
-
 	/**
 	 * Reads the state of the simulation from a file.
 	 *
 	 * @param path the path of the file to read
 	 */
 	private void read_state_from_file(String path) {
-		List <String> rows = Collections.emptyList();
+		List <String> lines = Collections.emptyList();
 
 		try {
-			rows = Files.readAllLines(Paths.get(path));
+			lines = Files.readAllLines(Paths.get(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		height = rows.size();
+		rows = lines.size();
 
-		if (height == 0)
+		if (rows == 0)
 			throw new RuntimeException("Error: empty file");
 
-		width = rows.get(0).split("\s").length; // rows.get(0).length() * 2 - 1;
+		columns = lines.get(0).split("\s").length; // rows.get(0).length() * 2 - 1;
 
-		for (int i = 0; i < height; i++) {
-			String[] actual_row = rows.get(i).split("\s");
+		for (int i = 0; i < rows; i++) {
+			String[] actual_row = lines.get(i).split("\s");
 
-			for (int j = 0; j < width; j++) {
+			for (int j = 0; j < columns; j++) {
 				int cell = Integer.parseInt(actual_row[j]);
 
 				if (cell == 5) {
@@ -96,13 +113,15 @@ public class Simulation {
 	}
 
 	/**
-	 * Prints the state of the simulation board, including the positions of
-	 * obstacles, free cells, enemies, player, goal and ship.
+	 * Retrieves the game board representation as a 2D array.
+	 * The board contains information about obstacles, free cells,
+	 * enemies, player, goal, and ship.
 	 *
-	 * @param node The node to which the status is to be printed.
+	 * @param node The current game state represented by a Node object.
+	 * @return The game board represented as a 2D array of integers.
 	 */
-	public void print_state(Node node) {
-		int[][] board = new int[height][width];
+	public int[][] get_board(Node node) {
+		int[][] board = new int[rows][columns];
 
 		for (Coordinate obstacle : obstacles)
 			board[obstacle.get_y()][obstacle.get_x()] = 1;
@@ -121,12 +140,7 @@ public class Simulation {
 		if (!node.get_was_ship_taken())
 			board[ship.get_y()][ship.get_x()] = 3;
 
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++)
-				System.out.print(board[i][j] + " ");
-
-			System.out.println();
-		}
+		return board;
 	}
 
 	/**
@@ -150,7 +164,7 @@ public class Simulation {
 		int x = coordinate.get_x();
 		int y = coordinate.get_y();
 
-		boolean is_in_board = 0 <= y && y < height && 0 <= x && x < width;
+		boolean is_in_board = 0 <= y && y < rows && 0 <= x && x < columns;
 
 		return is_in_board && obstacles.indexOf(coordinate) == -1;
 	}

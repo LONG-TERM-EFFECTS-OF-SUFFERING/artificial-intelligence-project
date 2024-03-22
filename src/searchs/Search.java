@@ -86,12 +86,11 @@ abstract public class Search {
 	 */
 	abstract public void expand_node(Node node);
 
+
 	/**
-	 * Runs the search algorithm and returns a list of Operators that lead to the
-	 * solution.
+	 * Runs the search algorithm and returns a list of nodes.
 	 *
-	 * @return a list of Simulation.Operators that lead to the
-	 *         solution.
+	 * @return a list of nodes representing the search results
 	 */
-	abstract public List <Simulation.Operator> run();
+	abstract public Node run();
 }
