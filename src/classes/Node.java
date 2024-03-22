@@ -1,6 +1,5 @@
 package src.classes;
 
-
 public class Node {
 	private Coordinate player = null;
 	private Node parent;
@@ -8,8 +7,7 @@ public class Node {
 	private int depth;
 	private double cost;
 	private boolean was_ship_taken = false;
-	public int ship_fuel;
-
+	private int ship_fuel;
 
 	/**
 	 * Constructs a new Node object.
@@ -22,7 +20,7 @@ public class Node {
 	 * @param ship_fuel The remaining fuel of the ship.
 	 */
 	public Node(Coordinate player, Node parent, Simulation.Operator operator,
-				int depth, double cost, int ship_fuel) {
+			int depth, double cost, int ship_fuel) {
 		this.player = player;
 		this.parent = parent;
 		this.operator = operator;
@@ -107,5 +105,19 @@ public class Node {
 	 */
 	public void decrease_ship_fuel() {
 		ship_fuel--;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj == null || getClass() != obj.getClass())
+			return false;
+
+		Node other = (Node) obj;
+		boolean other_is_on_ship = Utilities.is_on_ship(other.get_ship_fuel());
+		Coordinate other_coordinate = other.get_player();
+
+		return player.equals(other_coordinate) && Utilities.is_on_ship(ship_fuel) == other_is_on_ship;
 	}
 }

@@ -31,14 +31,15 @@ public class Cost extends Search {
     Simulation simulation = get_simulation();
 
     List<Simulation.Operator> availabe_operators = simulation.get_available_operators(node.get_player());
-    Simulation.Operator node_operator = node.get_operator();
-    Simulation.Operator node_opposite_operator = Utilities.get_opposite_operator(node_operator);
 
     for (Simulation.Operator operator : availabe_operators) {
-      if (operator == node_opposite_operator) // Do not return
+      Node node_parent = node.get_parent();
+      Node node_move = simulation.move(operator, node);
+
+      if (node_move.equals(node_parent)) // Do not return
         continue;
 
-      queue.add(simulation.move(operator, node));
+      queue.add(node_move);
       super.increase_expanded_nodes();
     }
   }

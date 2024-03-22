@@ -18,7 +18,8 @@ public class Menu {
     System.out.println("Seleccione el algoritmo a ejecutar:");
     System.out.println("1. Amplitud");
     System.out.println("2. Costo");
-    System.out.println("3. Salir");
+    System.out.println("3. Depth");
+    System.out.println("4. Salir");
   }
 
   public void selectOption() {
@@ -34,6 +35,10 @@ public class Menu {
         executeAlgorithm(cost);
         break;
       case 3:
+        Depth depth = new Depth("./src/professor_test.txt");
+        executeAlgorithm(depth);
+        break;
+      case 4:
         System.out.println("Saliendo...");
         System.exit(0);
       default:
