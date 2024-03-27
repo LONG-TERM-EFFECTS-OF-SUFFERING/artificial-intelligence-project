@@ -19,6 +19,14 @@ public class Simulation {
 	private Coordinate player = null;
 	private Coordinate ship = null;
 
+	/**
+	 * Returns the goal coordinate in the simulation.
+	 *
+	 * @return the goal coordinate
+	 */
+	public Coordinate get_goal() {
+		return goal;
+	}
 
 	/**
 	 * Returns the number of rows in the simulation.

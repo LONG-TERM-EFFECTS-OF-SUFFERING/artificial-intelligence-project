@@ -74,4 +74,20 @@ public class Utilities {
 		}
 		return false;
 	}
+
+	/**
+	 * Calculates the heuristic for a given node using the Manhattan distance
+	 * divided by two.
+	 *
+	 * @param node The node for which to calculate the heuristic.
+	 * @param goal The goal coordinate.
+	 * @return The calculated heuristic.
+	 */
+	static public double calculateHeuristic(Node node, Coordinate goal) {
+		Coordinate player = node.get_player();
+		int xDifference = Math.abs(player.get_x() - goal.get_x());
+		int yDifference = Math.abs(player.get_y() - goal.get_y());
+		double manhattanDistance = xDifference + yDifference;
+		return manhattanDistance / 2;
+	}
 }
