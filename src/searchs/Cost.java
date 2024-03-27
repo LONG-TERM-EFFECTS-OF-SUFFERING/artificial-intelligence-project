@@ -15,8 +15,18 @@ public class Cost extends Search {
 		super(path);
 		queue = new PriorityQueue <> (new Comparator<Node>() {
 			@Override
+			/**
+			 * This method compares two nodes based on their cost.
+			 * It is used to order the nodes in the priority queue.
+			 *
+			 * @param node1 The first node to compare.
+			 * @param node2 The second node to compare.
+			 * @return 1 if the cost of node1 is greater than the cost of node2,
+			 *         -1 if the cost of node1 is less than the cost of node2,
+			 *         0 if the costs of both nodes are equal.
+			 */
 			public int compare(Node node1, Node node2) {
-				return node1.get_cost() > node2.get_cost() ? 1 : 0;
+				return node1.get_cost() > node2.get_cost() ? 1 : (node1.get_cost() < node2.get_cost() ? -1 : 0);
 			}
 		});
 		queue.add(get_simulation().get_root());

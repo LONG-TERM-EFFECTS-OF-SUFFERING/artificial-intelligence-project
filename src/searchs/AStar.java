@@ -8,29 +8,33 @@ import src.classes.Node;
 import src.classes.Simulation;
 import src.classes.Utilities;
 
-public class Avara extends Search {
+public class AStar extends Search {
   private PriorityQueue<Node> queue;
 
-  public Avara(String path) {
+  public AStar(String path) {
     super(path);
     queue = new PriorityQueue<>(new Comparator<Node>() {
       @Override
       /**
-       * This method compares two nodes based on their heuristic values.
-       * It is used to order the nodes in the priority queue for the Greedy algorithm.
+       * This method compares two nodes based on their f(n) values.
+       * f(n) is the sum of the cost to reach the node (g(n)) and the heuristic or estimated cost.
+       * It is used to order the nodes in the priority queue for the A* algorithm.
        *
        * @param node1 The first node to compare.
        * @param node2 The second node to compare.
-       * @return 1 if the heuristic of node1 is greater than the heuristic of node2,
-       *         -1 if the heuristic of node1 is less than the heuristic of node2,
-       *         0 if the heuristics of both nodes are equal.
+       * @return 1 if the f(n) of node1 is greater than the f(n) of node2,
+       *         -1 if the f(n) of node1 is less than the f(n) of node2,
+       *         0 if the f(n) of both nodes are equal.
        */
       public int compare(Node node1, Node node2) {
         Simulation simulation = get_simulation();
-
         double heuristic1 = Utilities.calculateHeuristic(node1, simulation.get_goal());
         double heuristic2 = Utilities.calculateHeuristic(node2, simulation.get_goal());
-        return heuristic1 > heuristic2 ? 1 : (heuristic1 < heuristic2 ? -1 : 0);
+
+        double fn1 = node1.get_cost() + heuristic1;
+        double fn2 = node2.get_cost() + heuristic2;
+
+        return fn1 > fn2 ? 1 : (fn1 < fn2 ? -1 : 0);
       }
     });
     queue.add(get_simulation().get_root());
