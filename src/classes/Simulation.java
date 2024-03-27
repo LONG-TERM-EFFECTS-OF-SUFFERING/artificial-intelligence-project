@@ -19,13 +19,14 @@ public class Simulation {
 	private Coordinate player = null;
 	private Coordinate ship = null;
 
+
 	/**
-	 * Returns the goal coordinate in the simulation.
+	 * Returns the root node of the simulation.
 	 *
-	 * @return the goal coordinate
+	 * @return the root node of the simulation.
 	 */
-	public Coordinate get_goal() {
-		return goal;
+	public Node get_root() {
+		return root;
 	}
 
 	/**
@@ -47,6 +48,15 @@ public class Simulation {
 	}
 
 	/**
+	 * Returns the goal coordinate in the simulation.
+	 *
+	 * @return the goal coordinate
+	 */
+	public Coordinate get_goal() {
+		return goal;
+	}
+
+	/**
 	 * Represents a simulation of a game.
 	 * The simulation initializes the game state by reading it from a file,
 	 * creates a starting node for the game, and checks if the goal and player are present.
@@ -60,15 +70,6 @@ public class Simulation {
 			throw new RuntimeException("Error: player not found");
 
 		root = new Node(player, null, null, 0, 0, 0);
-	}
-
-	/**
-	 * Returns the root node of the simulation.
-	 *
-	 * @return the root node of the simulation.
-	 */
-	public Node get_root() {
-		return root;
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class Simulation {
 	 * enemies, player, goal, and ship.
 	 *
 	 * @param node The current game state represented by a Node object.
-	 * @return The game board represented as a 2D array of integers.
+	 * @return the game board represented as a 2D array of integers.
 	 */
 	public int[][] get_board(Node node) {
 		int[][] board = new int[rows][columns];

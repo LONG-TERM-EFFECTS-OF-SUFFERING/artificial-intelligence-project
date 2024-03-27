@@ -44,7 +44,7 @@ public class Amplitude extends Search {
 	 * Runs the amplitude search algorithm to find a solution.
 	 *
 	 * @return a list of Operators representing the performed operations
-	 * to reach the solution.
+	 *         to reach the solution.
 	 * @throws RuntimeException if a solution is not found.
 	 */
 	public Node run() {

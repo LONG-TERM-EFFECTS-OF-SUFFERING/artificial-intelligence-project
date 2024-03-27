@@ -81,13 +81,14 @@ public class Utilities {
 	 *
 	 * @param node The node for which to calculate the heuristic.
 	 * @param goal The goal coordinate.
-	 * @return The calculated heuristic.
+	 * @return the calculated heuristic.
 	 */
-	static public double calculateHeuristic(Node node, Coordinate goal) {
+	static public double calculate_heuristic(Node node, Coordinate goal) {
 		Coordinate player = node.get_player();
-		int xDifference = Math.abs(player.get_x() - goal.get_x());
-		int yDifference = Math.abs(player.get_y() - goal.get_y());
-		double manhattanDistance = xDifference + yDifference;
-		return manhattanDistance / 2;
+		int x_difference = Math.abs(player.get_x() - goal.get_x());
+		int y_difference = Math.abs(player.get_y() - goal.get_y());
+		double manhattan_distance = x_difference + y_difference;
+
+		return manhattan_distance / 2;
 	}
 }

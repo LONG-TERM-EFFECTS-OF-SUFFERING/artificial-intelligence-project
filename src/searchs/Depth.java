@@ -11,7 +11,7 @@ import src.classes.Simulation.Operator;
 import src.classes.Utilities;
 
 public class Depth extends Search {
-	private Stack <Node> stack = new Stack<>();
+	private Stack <Node> stack = new Stack <>();
 
 	public Depth(String path) {
 		super(path);

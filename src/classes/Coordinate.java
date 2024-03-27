@@ -20,7 +20,7 @@ public class Coordinate {
 	/**
 	 * Returns the x coordinate of the point.
 	 *
-	 * @return The x coordinate of the point.
+	 * @return the x coordinate of the point.
 	 */
 	public int get_x() {
 		return x;
@@ -29,7 +29,7 @@ public class Coordinate {
 	/**
 	 * Returns the y coordinate of the point.
 	 *
-	 * @return The y coordinate of the point.
+	 * @return the y coordinate of the point.
 	 */
 	public int get_y() {
 		return y;

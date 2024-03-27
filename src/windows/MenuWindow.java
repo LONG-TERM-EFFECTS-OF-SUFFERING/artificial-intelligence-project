@@ -13,7 +13,7 @@ public class MenuWindow extends JFrame {
 	private JButton start_button;
 	private JButton select_file_button;
 	private JComboBox <String> algorithm_combo_box;
-	private String path = "./src/my_test.txt"; // TODO: ask for the test file in a dialog
+	private String path = "./src/professor_test.txt"; // TODO: ask for the test file in a dialog
 
 
 	public MenuWindow() {
@@ -33,7 +33,7 @@ public class MenuWindow extends JFrame {
 		JLabel title_label = new JLabel("Select a search algorithm:");
 		main_panel.add(title_label);
 
-		String[] algorithms = { "Amplitude", "Cost", "A*" };
+		String[] algorithms = { "Amplitude", "Cost", "Avara", "A*" };
 		algorithm_combo_box = new JComboBox <>(algorithms);
 		main_panel.add(algorithm_combo_box);
 
@@ -59,7 +59,9 @@ public class MenuWindow extends JFrame {
 			switch (selected_algorithm) {
 				case "Amplitude" -> search = new Amplitude(path);
 				case "Cost" -> search = new Cost(path);
-				default -> search = new Depth(path);
+				case "Depth" -> search = new Depth(path);
+				case "Avara" -> search = new Avara(path);
+				default -> search = new AStar(path);
 			}
 			dispose();
 			SimulationWindow simulation_window = new SimulationWindow(simulation, search);

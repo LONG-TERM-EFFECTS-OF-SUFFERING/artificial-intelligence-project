@@ -17,11 +17,13 @@ public class SimulationWindow extends JFrame implements ActionListener {
 	private Search search;
 	private int rows;
 	private int cols;
+	private Timer timer;
 	private boolean is_running = false;
 	private JPanel main_panel;
 	private JPanel button_panel;
 	private JPanel grid_panel;
 	private JLabel status;
+	private JButton start_button;
 	private List <Node> nodes;
 	private int current_node = 0;
 
@@ -33,6 +35,22 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		this.cols = simulation.get_columns();
 
 		nodes = Utilities.get_ancestor_nodes(search.run());
+
+		timer = new Timer(500, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Actualizar la cuadrícula con el nodo actual
+				if (current_node < nodes.size()) {
+					Node currentNode = nodes.get(current_node++);
+					update_grid(simulation.get_board(currentNode));
+					String operator = Utilities.operator_to_string(currentNode.get_operator());
+					status.setText(status.getText() + operator + " ");
+				} else {
+					((Timer) e.getSource()).stop();
+					is_running = false;
+				}
+			}
+		});
 
 		Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
 		int screen_width = (int) screen_size.getWidth();
@@ -55,7 +73,7 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		button_panel = new JPanel();
 		main_panel.add(button_panel);
 
-		JButton start_button = new JButton("Start");
+		start_button = new JButton("Start");
 		start_button.addActionListener(this);
 		JButton pause_button = new JButton("Pause");
 		pause_button.addActionListener(this);
@@ -86,9 +104,10 @@ public class SimulationWindow extends JFrame implements ActionListener {
 				is_running = true;
 				run_simulation();
 			}
-		} else if (e.getActionCommand().equals("Pause"))
+		} else if (e.getActionCommand().equals("Pause")) {
 			is_running = false;
-		else if (e.getActionCommand().equals("Menu")) {
+			start_button.setText("Continue");
+		} else if (e.getActionCommand().equals("Menu")) {
 			dispose();
 			MenuWindow menu = new MenuWindow();
 			menu.setVisible(true);
@@ -126,22 +145,6 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		System.out.println("Expanded nodes: " + search.get_expanded_nodes());
 		System.out.println("Cost: " + search.get_cost());
 		System.out.println("Depth: " + search.get_depth());
-
-		Timer timer = new Timer(500, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Actualizar la cuadrícula con el nodo actual
-				if (current_node < nodes.size()) {
-					Node currentNode = nodes.get(current_node++);
-					update_grid(simulation.get_board(currentNode));
-					String operator = Utilities.operator_to_string(currentNode.get_operator());
-					status.setText(status.getText() + operator + " ");
-				} else {
-					((Timer) e.getSource()).stop();
-					is_running = false;
-				}
-			}
-		});
 
 		timer.start();
 	}

@@ -21,7 +21,7 @@ abstract public class Search {
 	/**
 	 * Returns the simulation object.
 	 *
-	 * @return The simulation object.
+	 * @return the simulation object.
 	 */
 	public Simulation get_simulation() {
 		return simulation;

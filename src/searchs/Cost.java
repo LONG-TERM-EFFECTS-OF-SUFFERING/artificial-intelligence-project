@@ -13,7 +13,7 @@ public class Cost extends Search {
 
 	public Cost(String path) {
 		super(path);
-		queue = new PriorityQueue <> (new Comparator<Node>() {
+		queue = new PriorityQueue <> (new Comparator <Node>() {
 			@Override
 			/**
 			 * This method compares two nodes based on their cost.
@@ -26,9 +26,10 @@ public class Cost extends Search {
 			 *         0 if the costs of both nodes are equal.
 			 */
 			public int compare(Node node1, Node node2) {
-				return node1.get_cost() > node2.get_cost() ? 1 : (node1.get_cost() < node2.get_cost() ? -1 : 0);
+				return Double.compare(node1.get_cost(), node2.get_cost());
 			}
 		});
+
 		queue.add(get_simulation().get_root());
 	}
 
