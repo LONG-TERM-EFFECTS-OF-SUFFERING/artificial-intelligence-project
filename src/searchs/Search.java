@@ -1,16 +1,14 @@
 package src.searchs;
 
-import java.util.List;
-
 import src.classes.Node;
 import src.classes.Simulation;
 
 
 abstract public class Search {
-	private Simulation simulation;
-	private int expanded_nodes = 0;
 	private double cost;
 	private int depth;
+	private int expanded_nodes = 0;
+	private Simulation simulation;
 
 
 	public Search(String path) {

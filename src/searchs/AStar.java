@@ -8,6 +8,7 @@ import src.classes.Node;
 import src.classes.Simulation;
 import src.classes.Utilities;
 
+
 public class AStar extends Search {
 	private PriorityQueue <Node> queue;
 
@@ -42,6 +43,7 @@ public class AStar extends Search {
 
 		queue.add(get_simulation().get_root());
 	}
+
 
 	/**
 	 * Expands a given node by generating child nodes using available operators.

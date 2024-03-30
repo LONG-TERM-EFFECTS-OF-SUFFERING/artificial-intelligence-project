@@ -6,7 +6,6 @@ import java.util.Queue;
 
 import src.classes.Node;
 import src.classes.Simulation;
-import src.classes.Utilities;
 
 
 public class Amplitude extends Search {
@@ -17,6 +16,7 @@ public class Amplitude extends Search {
 		super(path);
 		queue.add(get_simulation().get_root());
 	}
+
 
 	/**
 	 * Expands a given node by generating child nodes using available operators.

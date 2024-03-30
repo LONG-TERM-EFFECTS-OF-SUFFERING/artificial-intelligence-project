@@ -1,13 +1,15 @@
 package src.classes;
 
+
 public class Node {
+	private boolean was_ship_taken = false;
 	private Coordinate player = null;
+	private double cost;
+	private int depth;
+	private int ship_fuel;
 	private Node parent;
 	private Simulation.Operator operator;
-	private int depth;
-	private double cost;
-	private boolean was_ship_taken = false;
-	private int ship_fuel;
+
 
 	/**
 	 * Constructs a new Node object.
@@ -28,6 +30,7 @@ public class Node {
 		this.cost = cost;
 		this.ship_fuel = ship_fuel;
 	}
+
 
 	/**
 	 * Returns the coordinate of the player in the node.

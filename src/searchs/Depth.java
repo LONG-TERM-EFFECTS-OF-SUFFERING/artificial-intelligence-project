@@ -1,22 +1,22 @@
 package src.searchs;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Stack;
 
 import src.classes.Node;
 import src.classes.Simulation;
-import src.classes.Simulation.Operator;
 import src.classes.Utilities;
+
 
 public class Depth extends Search {
 	private Stack <Node> stack = new Stack <>();
+
 
 	public Depth(String path) {
 		super(path);
 		stack.add(get_simulation().get_root());
 	}
+
 
 	@Override
 	public void expand_node(Node node) {

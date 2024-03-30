@@ -9,15 +9,15 @@ import java.util.List;
 
 
 public class Simulation {
-	private Node root;
-	private int rows;
-	private int columns;
-	private List <Coordinate> enemies = new ArrayList <>();
-	private List <Coordinate> obstacles = new ArrayList <>();
-	private List <Coordinate> free_cells = new ArrayList <>();
 	private Coordinate goal = null;
 	private Coordinate player = null;
 	private Coordinate ship = null;
+	private int columns;
+	private int rows;
+	private List <Coordinate> enemies = new ArrayList<>();
+	private List <Coordinate> free_cells = new ArrayList<>();
+	private List <Coordinate> obstacles = new ArrayList<>();
+	private Node root;
 
 
 	/**

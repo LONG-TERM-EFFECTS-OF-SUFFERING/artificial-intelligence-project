@@ -17,6 +17,7 @@ public class Coordinate {
 		this.y = y;
 	}
 
+
 	/**
 	 * Returns the x coordinate of the point.
 	 *

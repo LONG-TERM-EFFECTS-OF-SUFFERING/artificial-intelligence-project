@@ -6,10 +6,11 @@ import java.util.PriorityQueue;
 
 import src.classes.Node;
 import src.classes.Simulation;
-import src.classes.Utilities;
+
 
 public class Cost extends Search {
 	private PriorityQueue <Node> queue;
+
 
 	public Cost(String path) {
 		super(path);
@@ -32,6 +33,7 @@ public class Cost extends Search {
 
 		queue.add(get_simulation().get_root());
 	}
+
 
 	/**
 	 * Expands a given node by generating child nodes using available operators.
