@@ -12,7 +12,6 @@ import src.classes.Simulation;
 import src.classes.Utilities;
 import src.searchs.Search;
 
-
 public class SimulationWindow extends JFrame implements ActionListener {
 	private boolean is_running = false;
 	private ImageCollection image_collection;
@@ -31,7 +30,8 @@ public class SimulationWindow extends JFrame implements ActionListener {
 	private List<Node> nodes;
 	private Search search;
 	private Timer timer;
-
+	private JTextArea stepsTextArea;
+	private JScrollPane stepsScrollPane;
 
 	public SimulationWindow(Simulation simulation, Search search) {
 		this.search = search;
@@ -47,7 +47,8 @@ public class SimulationWindow extends JFrame implements ActionListener {
 					Node current_node = nodes.get(current_node_index++);
 					update_grid(simulation.get_board(current_node));
 					String operator = Utilities.operator_to_string(current_node.get_operator());
-					status.setText(status.getText() + operator + " ");
+					// status.setText(status.getText() + operator + " ");
+					stepsTextArea.append(operator + " ");
 				} else {
 					((Timer) e.getSource()).stop();
 					is_running = false;
@@ -97,8 +98,20 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		button_panel.add(status_button);
 		button_panel.add(menu_button);
 
-		status = new JLabel("Status: ");
-		button_panel.add(status);
+		stepsTextArea = new JTextArea();
+		stepsTextArea.append("STEPS: ");
+
+		stepsTextArea.setEditable(false);
+		stepsTextArea.setLineWrap(true);
+		stepsTextArea.setWrapStyleWord(true);
+
+		stepsScrollPane = new JScrollPane(stepsTextArea);
+
+		main_panel.add(stepsScrollPane);
+
+		// status = new JLabel("Status: ");
+		// status.setFont(new Font("Arial", Font.PLAIN, 10));
+		// button_panel.add(status);
 
 		main_panel.add(Box.createVerticalStrut(10));
 
@@ -112,13 +125,12 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 	}
 
-
 	/**
 	 * Displays the simulation information in a dialog window.
 	 */
 	private void display_simulation_information() {
 		result_dialog = new JDialog(this, "Simulation results", true);
-		result_dialog.setSize((int) (window_width * 0.3), (int) (window_height * 0.3));
+		result_dialog.setSize((int) (window_width * 0.9), (int) (window_height * 0.3));
 		result_dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		result_dialog.setResizable(false);
 
@@ -181,7 +193,7 @@ public class SimulationWindow extends JFrame implements ActionListener {
 
 				start_button.setEnabled(false);
 			}
-			case "Pause" ->  {
+			case "Pause" -> {
 				is_running = false;
 				timer.stop();
 				status_button.setText("Continue");
