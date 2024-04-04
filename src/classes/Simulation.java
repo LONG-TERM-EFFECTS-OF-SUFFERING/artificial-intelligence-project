@@ -14,19 +14,19 @@ public class Simulation {
 	private Coordinate ship = null;
 	private int columns;
 	private int rows;
-	private List <Coordinate> enemies = new ArrayList<>();
-	private List <Coordinate> free_cells = new ArrayList<>();
-	private List <Coordinate> obstacles = new ArrayList<>();
+	private List <Coordinate> enemies = new ArrayList <>();
+	private List <Coordinate> free_cells = new ArrayList <>();
+	private List <Coordinate> obstacles = new ArrayList <>();
 	private Node root;
 
 
 	/**
-	 * Returns the root node of the simulation.
+	 * Returns the goal coordinate in the simulation.
 	 *
-	 * @return the root node of the simulation.
+	 * @return the goal coordinate
 	 */
-	public Node get_root() {
-		return root;
+	public Coordinate get_goal() {
+		return goal;
 	}
 
 	/**
@@ -48,12 +48,12 @@ public class Simulation {
 	}
 
 	/**
-	 * Returns the goal coordinate in the simulation.
+	 * Returns the root node of the simulation.
 	 *
-	 * @return the goal coordinate
+	 * @return the root node of the simulation.
 	 */
-	public Coordinate get_goal() {
-		return goal;
+	public Node get_root() {
+		return root;
 	}
 
 	/**
@@ -113,6 +113,7 @@ public class Simulation {
 					if (player != null)
 						throw new RuntimeException("Error: more than one player");
 					player = new Coordinate(j, i);
+					free_cells.add(new Coordinate(j, i)); // TODO: check this
 				} else if (cell == 1)
 					obstacles.add(new Coordinate(j, i));
 				else if (cell == 0)

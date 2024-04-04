@@ -12,7 +12,7 @@ import src.searchs.*;
 public class MenuWindow extends JFrame implements ActionListener {
 	private JButton select_file_button;
 	private JButton start_button;
-	private JComboBox<String> algorithm_combo_box;
+	private JComboBox <String> algorithm_combo_box;
 	private String path = "./src/test.txt";
 
 

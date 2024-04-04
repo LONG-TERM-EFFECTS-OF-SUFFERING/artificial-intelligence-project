@@ -33,39 +33,21 @@ public class Node {
 
 
 	/**
+	 * Returns the value indicating whether the ship was taken or not.
+	 *
+	 * @return true if the ship was taken, false otherwise.
+	 */
+	public boolean get_was_ship_taken() {
+		return was_ship_taken;
+	}
+
+	/**
 	 * Returns the coordinate of the player in the node.
 	 *
 	 * @return the coordinate of the player.
 	 */
 	public Coordinate get_player() {
 		return player;
-	}
-
-	/**
-	 * Returns the parent node of the node.
-	 *
-	 * @return the parent node.
-	 */
-	public Node get_parent() {
-		return parent;
-	}
-
-	/**
-	 * Returns the depth of the node in the search tree.
-	 *
-	 * @return the depth of the node.
-	 */
-	public int get_depth() {
-		return depth;
-	}
-
-	/**
-	 * Returns the operator used to reach the node.
-	 *
-	 * @return the operator used to reach the node.
-	 */
-	public Simulation.Operator get_operator() {
-		return operator;
 	}
 
 	/**
@@ -78,12 +60,12 @@ public class Node {
 	}
 
 	/**
-	 * Returns the value indicating whether the ship was taken or not.
+	 * Returns the depth of the node in the search tree.
 	 *
-	 * @return true if the ship was taken, false otherwise.
+	 * @return the depth of the node.
 	 */
-	public boolean get_was_ship_taken() {
-		return was_ship_taken;
+	public int get_depth() {
+		return depth;
 	}
 
 	/**
@@ -93,6 +75,24 @@ public class Node {
 	 */
 	public int get_ship_fuel() {
 		return ship_fuel;
+	}
+
+	/**
+	 * Returns the parent node of the node.
+	 *
+	 * @return the parent node.
+	 */
+	public Node get_parent() {
+		return parent;
+	}
+
+	/**
+	 * Returns the operator used to reach the node.
+	 *
+	 * @return the operator used to reach the node.
+	 */
+	public Simulation.Operator get_operator() {
+		return operator;
 	}
 
 	/**

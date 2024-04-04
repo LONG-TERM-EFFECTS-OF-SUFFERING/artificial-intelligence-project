@@ -23,14 +23,13 @@ public class SimulationWindow extends JFrame implements ActionListener {
 	private JButton start_button;
 	private JButton status_button;
 	private JDialog result_dialog;
-	private JLabel status;
 	private JPanel button_panel;
 	private JPanel grid_panel;
 	private JPanel main_panel;
-	private List<Node> nodes;
+	private List <Node> nodes;
 	private Search search;
 	private Timer timer;
-	private JTextArea stepsTextArea;
+	private JTextArea steps_text_area;
 	private JScrollPane stepsScrollPane;
 
 	public SimulationWindow(Simulation simulation, Search search) {
@@ -48,7 +47,7 @@ public class SimulationWindow extends JFrame implements ActionListener {
 					update_grid(simulation.get_board(current_node));
 					String operator = Utilities.operator_to_string(current_node.get_operator());
 					// status.setText(status.getText() + operator + " ");
-					stepsTextArea.append(operator + " ");
+					steps_text_area.append(operator + " ");
 				} else {
 					((Timer) e.getSource()).stop();
 					is_running = false;
@@ -98,20 +97,16 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		button_panel.add(status_button);
 		button_panel.add(menu_button);
 
-		stepsTextArea = new JTextArea();
-		stepsTextArea.append("STEPS: ");
+		steps_text_area = new JTextArea();
+		steps_text_area.append("STEPS: ");
 
-		stepsTextArea.setEditable(false);
-		stepsTextArea.setLineWrap(true);
-		stepsTextArea.setWrapStyleWord(true);
+		steps_text_area.setEditable(false);
+		steps_text_area.setLineWrap(true);
+		steps_text_area.setWrapStyleWord(true);
 
-		stepsScrollPane = new JScrollPane(stepsTextArea);
+		stepsScrollPane = new JScrollPane(steps_text_area);
 
 		main_panel.add(stepsScrollPane);
-
-		// status = new JLabel("Status: ");
-		// status.setFont(new Font("Arial", Font.PLAIN, 10));
-		// button_panel.add(status);
 
 		main_panel.add(Box.createVerticalStrut(10));
 
@@ -130,7 +125,7 @@ public class SimulationWindow extends JFrame implements ActionListener {
 	 */
 	private void display_simulation_information() {
 		result_dialog = new JDialog(this, "Simulation results", true);
-		result_dialog.setSize((int) (window_width * 0.9), (int) (window_height * 0.3));
+		result_dialog.setSize((int) (window_width * 0.5), (int) (window_height * 0.3));
 		result_dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		result_dialog.setResizable(false);
 
@@ -138,16 +133,19 @@ public class SimulationWindow extends JFrame implements ActionListener {
 		result_panel.setLayout(new BoxLayout(result_panel, BoxLayout.Y_AXIS));
 
 		JLabel expanded_nodes_label = new JLabel("Expanded Nodes: " + search.get_expanded_nodes());
+		expanded_nodes_label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		JLabel cost_label = new JLabel("Cost: " + search.get_cost());
+		cost_label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		JLabel depth_label = new JLabel("Depth: " + search.get_depth());
+		depth_label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		result_panel.add(Box.createVerticalGlue());
 		result_panel.add(expanded_nodes_label);
 		result_panel.add(cost_label);
 		result_panel.add(depth_label);
 		result_panel.add(Box.createVerticalGlue());
-
-		result_panel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		result_dialog.add(result_panel, BorderLayout.CENTER);
 
