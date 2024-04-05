@@ -14,7 +14,7 @@
 
 2. Go to the project folder: `cd ./smart_mandalorian`.
 
-3. Generate the Java classes of the project: `javac -d out ./src/Main.Java`.
+3. Generate the Java classes of the project: `javac -d out ./src/Main.java`.
 
 4. Copy the assets to the Java class folder: `cp -rf ./src/assets ./out`.
 
